@@ -1,4 +1,5 @@
 digraph Receiver {
+    bgcolor=transparent;
     rankdir=LR;
     node [shape=box];
     Data, Baseband [shape=plaintext];
