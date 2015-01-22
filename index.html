@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>AudioModem by spoonb</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">AudioModem</h1>
+        <p class="header">Digital communication with a speaker and microphone</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/spoonb/audiomodem/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/spoonb/audiomodem/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/spoonb/audiomodem">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/spoonb">spoonb</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h1>
+
+<p>AudioModem is a narrowband digital transmitter and receiver implemented
+using MATLAB®. It is intended to be a demonstration of a practical
+system and not a simulation. Using single carrier QAM digital
+modulation, an image can be transmitted from one computer to another
+with a typical audio card, speaker and microphone. The performance
+will vary depending on your hardware. Typically a bitrate of 8
+kbit/s can be achieved.</p>
+
+<h1>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h1>
+
+<p>This transceiver demonstrates the following digital communication
+concepts:</p>
+
+<ul>
+<li>Digital modulation
+
+<ul>
+<li>BPSK (preamble only)</li>
+<li>QPSK</li>
+<li>16-QAM (not reliable)</li>
+<li>64-QAM (not reliable)</li>
+</ul>
+</li>
+<li>Convolutional coding
+
+<ul>
+<li>1/2 rate without puncturing</li>
+<li>2/3 rate with puncturing</li>
+<li>3/4 rate with puncturing</li>
+</ul>
+</li>
+<li>Interleaving</li>
+<li>Scrambling</li>
+<li>Timing synchronization</li>
+<li>Phase synchronization</li>
+<li>Frame synchronization</li>
+</ul>
+
+<h1>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies</h1>
+
+<p>A recent version of MATLAB is required and only version 2014a and
+2014b have been tested. In addition, this project uses <a href="http://www.mathworks.com/help/dsp/basic-operations.html">System
+objects</a>™ extensively. Therefore, the Communications
+Systems Toolbox and DSP System Toolbox are also required.</p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+
+<p>When running any of the provided examples an open file dialog will
+appear on the transmitter for you to select an image for transfer.  On
+the receiver a constellation and spectrum plot will be shown. After the
+file transfer is complete the received image will be displayed. Some
+status messages will be printed to the console. A warning will be
+printed if the CRC checksum for the image is not correct.</p>
+
+<p>To run a simple loop back simulation execute <em>runSimulateImage.m</em>
+from a MATLAB command prompt:</p>
+
+<pre><code>&gt;&gt; runSimulateImage
+</code></pre>
+
+<p>To transfer an image execute <em>runReceiveImage.m</em>:</p>
+
+<pre><code>&gt;&gt; runReceiveImage
+</code></pre>
+
+<p>Then from another computer execute <em>runTransmitImage.m</em>:</p>
+
+<pre><code>&gt;&gt; runTransmitImage
+</code></pre>
+
+<p>It is suggested you run the transmitter and receiver applications on
+separate computers. It is certainly possible to run two separate
+MATLAB instances on the same computer, but most audio cards have
+significant internal leakage between the input and output paths
+causing the SNR to be much higher then in a realistic scenario.</p>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>All of the examples provided use the <em>SystemConfiguration</em> function to
+return a structure of configuration parameters. Have a look at this
+file and edit only the basic configuration parameters unless you know
+what you are doing. Note that almost all of the parameters correspond
+to options of the MATLAB provided System objects used in the system.</p>
+
+<h1>
+<a id="details" class="anchor" href="#details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details</h1>
+
+<p>The system is implemented using custom and MATLAB provided System
+objects. Below are some short descriptions of each and some
+delightful flow graphs.</p>
+
+<p><img src="http://www.cae.tntech.edu/%7Ecbwithersp42/audiomodem/system.svg" alt="System"></p>
+
+<h2>
+<a id="transmitter" class="anchor" href="#transmitter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transmitter</h2>
+
+<p>The transmitter class implements transmit physical layer (PHY). The
+input is the payload to be transmitted as a column vector of bytes and
+the output is the complex baseband samples that are to be transmitted.
+The transmitter consists of a frame generator, root-raised cosine
+(RRC) pulse shaping filter and a digital upconverter (DUC).</p>
+
+<p><img src="http://www.cae.tntech.edu/%7Ecbwithersp42/audiomodem/transmitter.svg" alt="Transmitter"></p>
+
+<h2>
+<a id="receiver" class="anchor" href="#receiver" aria-hidden="true"><span class="octicon octicon-link"></span></a>Receiver</h2>
+
+<p>The receiver class implements the receive physical layer. The data
+flow is essentially the reverse of the transmitter, but with the added
+complexity of synchronization. The receiver consists of a digital
+downconverter (DDC), an RRC matched filter, a symbol timing
+synchronizer and a frame synchronizer.</p>
+
+<p><img src="http://www.cae.tntech.edu/%7Ecbwithersp42/audiomodem/receiver.svg" alt="Receiver"></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
