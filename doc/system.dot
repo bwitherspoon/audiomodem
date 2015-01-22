@@ -1,0 +1,6 @@
+digraph System {
+    rankdir=LR;
+    node [shape=box];
+    ImageSource -> Transmitter -> AudioPlayer -> Channel
+        -> AudioRecorder -> Receiver -> ImageSink;
+}

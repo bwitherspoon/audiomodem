@@ -1,0 +1,7 @@
+digraph Receiver {
+    rankdir=LR;
+    node [shape=box];
+    Data, Baseband [shape=plaintext];
+    Baseband -> DDC -> RRC -> TimingSynchronizer -> FrameSynchronizer
+        -> Data;
+}

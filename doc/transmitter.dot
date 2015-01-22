@@ -1,0 +1,6 @@
+digraph Transmitter {
+    rankdir=LR;
+    node [shape=box];
+    Data, Baseband [shape=plaintext];
+    Data -> FrameGenerator -> RRC -> DUC -> Baseband;
+}
