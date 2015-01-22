@@ -35,8 +35,10 @@ Dependencies
 
 A recent version of MATLAB is required and only version 2014a and
 2014b have been tested. In addition, this project uses [System
-objects][systemobjects]™ extensively. Therefore, the Communications Systems
-Toolbox and DSP System Toolbox are also required.
+objects][systemobjects]™ extensively. Therefore, the Communications
+Systems Toolbox and DSP System Toolbox are also required.
+
+[systemobjects]: http://www.mathworks.com/help/dsp/basic-operations.html
 
 Usage
 -----
